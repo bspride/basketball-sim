@@ -12,16 +12,22 @@ module.exports = class Dao {
         this.tableName = tableName;
     }
 
-    get(homeTeamId, awayTeamId) {
+    get(leagueId, homeTeamId, awayTeamId) {
         var params = {};
         params[this.tableName] = {
             Keys: [
-                { HashKey: homeTeamId },
-                { HashKey: awayTeamId }
+                { 
+                    HashKey: leagueId,
+                    RangeKey: homeTeamId
+                },
+                { 
+                    HashKey: leagueId,
+                    RangeKey: awayTeamId 
+                }
             ]
         };
         
-        this.client.getItem(params, function(err, data) {
+        this.client.batchGet(params, function(err, data) {
             if (err) {
                 console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
             } else {
