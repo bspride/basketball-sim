@@ -18,7 +18,7 @@ Resources:
       Handler: index.handler
       Runtime: nodejs6.10
       CodeUri: .
-      Description: A starter AWS Lambda function
+      Description: Responsible for simulating game between two teams
       MemorySize: 128
       Timeout: 3
       Events:
@@ -29,6 +29,27 @@ Resources:
               Ref: SNSGameSimTopic
       # TODO: Scope access
       Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: TeamDDBTable
+  GameRunnerFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: gameRunner.handler
+      Runtime: nodejs6.10
+      CodeUri: .
+      Description: Responsible for publishing messages to SNS topic of games that need to be simulated
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        MinuteRead:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+      # TODO: Scope access
+      Policies: AmazonDynamoDBFullAccess
+      # TODO: Does this make sense to read from this table?
       Environment:
         Variables:
           TABLE_NAME:
