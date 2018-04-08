@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An Amazon SNS trigger that logs the message pushed to the SNS topic
+Resources:
+  TeamDDBTable:
+    Type: 'AWS::Serverless::SimpleTable'
+    Properties:
+      TableName: team-table
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  GameSimulationFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: .
+      Description: A starter AWS Lambda function
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        SNS1:
+          Type: SNS
+          Properties:
+            Topic:
+              Ref: SNSGameSimTopic
+      # TODO: Scope access
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: TeamDDBTable
+  SNSGameSimTopic:
+    Type: 'AWS::SNS::Topic'
