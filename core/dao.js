@@ -12,13 +12,15 @@ module.exports = class Dao {
         this.tableName = tableName;
     }
 
-    get(teamId) {
-        var params = {
-            Key: {
-                id: teamId
-            },
-            TableName: this.tableName
+    get(homeTeamId, awayTeamId) {
+        var params = {};
+        params[this.tableName] = {
+            Keys: [
+                { HashKey: homeTeamId },
+                { HashKey: awayTeamId }
+            ]
         };
+        
         this.client.getItem(params, function(err, data) {
             if (err) {
                 console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));

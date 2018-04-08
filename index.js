@@ -11,8 +11,7 @@ exports.handler = (event, context, callback) => {
 
 function execute(homeTeamId, awayTeamId) {
     // fetch team info from dynamo db
-    daoFactory.getTeamDao().get(homeTeamId);
-    daoFactory.getTeamDao().get(awayTeamId);
+    daoFactory.getTeamDao().get(homeTeamId, awayTeamId);
     // run simulation
     simulator.simulate(homeTeamId, awayTeamId);
     // update dynamo with results

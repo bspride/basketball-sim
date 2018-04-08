@@ -2,13 +2,20 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: An Amazon SNS trigger that logs the message pushed to the SNS topic
 Resources:
-  TeamDDBTable:
-    Type: 'AWS::Serverless::SimpleTable'
+  LeagueDDBTable:
+    Type: 'AWS::DynamoDB::Table'
     Properties:
-      TableName: team-table
-      PrimaryKey:
-        Name: id
-        Type: String
+      TableName: "league-table"
+      AttributeDefinitions:
+      - AttributeName: "leagueId"
+        AttributeType: "S"
+      - AttributeName: "teamId"
+        AttributeType: "S"
+      KeySchema:
+      - AttributeName: "leagueId"
+        KeyType: "HASH"
+      - AttributeName: "teamId"
+        KeyType: "RANGE"
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
@@ -32,7 +39,7 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME:
-            Ref: TeamDDBTable
+            Ref: LeagueDDBTable
   GameRunnerFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -53,6 +60,6 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME:
-            Ref: TeamDDBTable
+            Ref: LeagueDDBTable
   SNSGameSimTopic:
     Type: 'AWS::SNS::Topic'
