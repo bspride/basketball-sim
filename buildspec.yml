@@ -1,0 +1,27 @@
+version: 0.1
+
+phases:
+  install:
+    commands:
+      - echo "nothing to do in install"
+  pre_build:
+    commands:
+      - echo "Installing dependencies - `pwd`"
+      - npm install
+      - echo "dependencies install completed `date`"
+  build:
+    commands:
+      - echo "Starting build `date` in `pwd`"
+      - aws cloudformation package --template-file template.yaml --s3-bucket $BUILD_OUTPUT_BUCKET --output-template-file build/packaged.yaml
+      # Enable below line for integ tests when ready
+      # - aws cloudformation package --template-file test-sam.yaml --s3-bucket $BUILD_OUTPUT_BUCKET --output-template-file test-output_sam.yaml
+  post_build:
+    commands:
+      - echo "build completed on `date`"
+
+artifacts:
+  files:
+    - build/packaged.yaml
+    # Enable below line for integ tests when ready
+    # - test-output_sam.yaml
+  discard-paths: yes
