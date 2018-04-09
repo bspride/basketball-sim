@@ -3,8 +3,8 @@
 console.log('Loading GameRunner function');
 var table = process.env.TABLE_NAME;
 
-exports.handler = (event, context, callback) => {
-    callback(null, null)
+exports.handler = async function(event, context) {
+    this.run();
 }
 
 function run() {

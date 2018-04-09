@@ -12,7 +12,8 @@ module.exports = class Dao {
         this.tableName = tableName;
     }
 
-    get(leagueId, homeTeamId, awayTeamId) {
+    async get(leagueId, homeTeamId, awayTeamId) {
+        // TODO: Move this to a Dynamo helper object?
         var params = {};
         params[this.tableName] = {
             Keys: [
@@ -26,13 +27,15 @@ module.exports = class Dao {
                 }
             ]
         };
-        
-        this.client.batchGet(params, function(err, data) {
-            if (err) {
-                console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-            } else {
-                return data;
-            }
-        })
+
+        var request;
+
+        try {
+            request = await this.client.batchGet(params).promise();
+        } catch (err) {
+            console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+        }
+
+        return request;
     }
 }
