@@ -7,6 +7,7 @@ before_install:
 before_deploy:
   - sudo pip install -r requirements.txt
 deploy:
+  skip_cleanup: true
   provider: script
   script: scripts/deploy.sh
   on:
