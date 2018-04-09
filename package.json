@@ -1,0 +1,19 @@
+{
+  "name": "basketball-sim",
+  "version": "1.0.0",
+  "description": "Multiplayer basketball simulator!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bspride/basketball-sim.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bspride/basketball-sim/issues"
+  },
+  "homepage": "https://github.com/bspride/basketball-sim#readme"
+}
