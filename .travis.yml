@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- "6.10"
+before_install:
+  - npm install -g aws-sam-local
+before_deploy:
+  - pip install -r requirements.txt
+deploy:
+  provider: script
+  script: scripts/deploy.sh
+  on:
+    branch: master
