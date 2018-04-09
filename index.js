@@ -15,7 +15,7 @@ exports.handler = async function(event, context) {
 
 function execute(leagueId, homeTeamId, awayTeamId) {
     // fetch team info from dynamo db
-    await daoFactory.getTeamDao().get(leagueId, homeTeamId, awayTeamId);
+    daoFactory.getTeamDao().get(leagueId, homeTeamId, awayTeamId);
     // run simulation
     var winningTeam = simulator.simulate(homeTeamId, awayTeamId);
     // update dynamo with results
