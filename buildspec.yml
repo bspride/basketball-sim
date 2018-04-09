@@ -12,7 +12,7 @@ phases:
   build:
     commands:
       - echo "Starting build `date` in `pwd`"
-      - aws cloudformation package --template-file template.yaml --s3-bucket $BUILD_OUTPUT_BUCKET --output-template-file build/packaged.yaml
+      - aws cloudformation package --template-file template.yaml --s3-bucket $BUILD_OUTPUT_BUCKET --output-template-file packaged.yaml
       # Enable below line for integ tests when ready
       # - aws cloudformation package --template-file test-sam.yaml --s3-bucket $BUILD_OUTPUT_BUCKET --output-template-file test-output_sam.yaml
   post_build:
@@ -21,7 +21,7 @@ phases:
 
 artifacts:
   files:
-    - build/packaged.yaml
+    - packaged.yaml
     # Enable below line for integ tests when ready
     # - test-output_sam.yaml
   discard-paths: yes
