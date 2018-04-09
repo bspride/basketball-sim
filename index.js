@@ -8,7 +8,7 @@ exports.handler = async function(event, context) {
     const message = event.Records[0].Sns.Message;
     const messageAttr = event.Records[0].Sns.MessageAttributes;
 
-    execute(messageAttr.league.value, messageAttr.homeTeam.value, messageAttr.awayTeam.value);
+    execute(messageAttr.League.Value, messageAttr.HomeTeam.Value, messageAttr.AwayTeam.Value);
 
     callback(null, message);
 }
