@@ -7,7 +7,7 @@ phases:
   pre_build:
     commands:
       - echo "Installing dependencies - `pwd`"
-      - npm install
+      - npm install --production
       - echo "dependencies install completed `date`"
   build:
     commands:
