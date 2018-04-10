@@ -1,14 +1,14 @@
 var Dao = require('../../core/dao.js')
 var expect = require('chai').expect
-const tableName = "test"
+const tableName = 'test'
 var dao
 
-describe ('dao', function () {
-  beforeEach (() => {
+describe('dao', function () {
+  beforeEach(() => {
     dao = new Dao(tableName)
   })
 
-  it ('should have tablename set', function () {
+  it('should have tablename set', function () {
     expect(dao.tableName).to.equal(tableName)
   })
 })
