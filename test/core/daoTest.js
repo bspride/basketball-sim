@@ -5,7 +5,8 @@ var dao
 
 describe('dao', function () {
   beforeEach(() => {
-    dao = new Dao(tableName)
+    let client = {}
+    dao = new Dao(client, tableName)
   })
 
   it('should have tablename set', function () {

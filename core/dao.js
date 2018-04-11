@@ -1,15 +1,9 @@
 'use strict'
 
-var AWS = require('aws-sdk')
-const REGION = process.env.AWS_REGION
-AWS.config.update({
-  region: REGION
-})
-
 module.exports = class Dao {
-  constructor (tableName) {
+  constructor (client, tableName) {
     // create DynamoDB service object
-    this.client = new AWS.DynamoDB.DocumentClient()
+    this.client = client
     this.tableName = tableName
   }
 
@@ -38,5 +32,27 @@ module.exports = class Dao {
     }
 
     return request
+  }
+
+  async getAllTeamsToSimulate() {
+    let params = {}
+    let teams = []
+    let leagueId = 1;
+    // TODO: Are we going to have a results table to check games needing simulation?
+    params[this.tableName] = {
+      Keys: [
+        {
+          HashKey: leagueId
+        }
+      ]
+    }
+    console.log("Getting teams...")
+    try {
+      teams = await this.client.batchGet(params);
+    } catch (err) {
+      console.error('Unable to read item. Error JSON:', JSON.stringify(err, null, 2))
+    }
+
+    return teams
   }
 }

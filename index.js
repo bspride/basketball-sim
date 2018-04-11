@@ -1,6 +1,7 @@
 'use strict'
+const startup = require('./startup.js')
 const simulator = require('./core/gameSimulator.js')
-const daoFactory = require('./core/daoFactory.js')
+const DaoFactory = require('./core/daoFactory.js')
 
 console.log('Loading function')
 
@@ -12,7 +13,9 @@ exports.handler = async function (event, context) {
 
 function execute (leagueId, homeTeamId, awayTeamId) {
   // fetch team info from dynamo db
-  daoFactory.getTeamDao().get(leagueId, homeTeamId, awayTeamId)
+  startup.resolveDependency(DaoFactory)
+    .getTeamDao()
+    .get(leagueId, homeTeamId, awayTeamId)
   // run simulation
   var winningTeam = simulator.simulate(homeTeamId, awayTeamId)
   // update dynamo with results
